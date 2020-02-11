@@ -99,7 +99,7 @@ export namespace ReactDadata {
     query?: string
     autoload?: boolean
     count?: number
-    onChange?: (suggestion: DadataSuggestion) => void
+    onChange?: (suggestion: DadataSuggestion | string) => void
     autocomplete?: string
     validate?: (value: string) => void
     className?: string
@@ -198,7 +198,11 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       event.preventDefault();
       if (this.state.suggestionIndex >= 0) {
         this.selectSuggestion(this.state.suggestionIndex);
-      }
+      } else {
+          if (this.props.onChange) {
+            this.props.onChange(this.state.query);
+          }
+      } 
     }
   };
 

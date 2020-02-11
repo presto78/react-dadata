@@ -66,6 +66,11 @@ var ReactDadata = /** @class */ (function (_super) {
                 if (_this.state.suggestionIndex >= 0) {
                     _this.selectSuggestion(_this.state.suggestionIndex);
                 }
+                else {
+                    if (_this.props.onChange) {
+                        _this.props.onChange(_this.state.query);
+                    }
+                }
             }
         };
         _this.fetchSuggestions = function () {
