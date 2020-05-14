@@ -25,11 +25,19 @@ var ReactDadata = /** @class */ (function (_super) {
             if (_this.state.suggestions.length == 0) {
                 _this.fetchSuggestions();
             }
+            var onFocus = _this.props.onFocus;
+            if (onFocus) {
+                onFocus();
+            }
         };
         _this.onInputBlur = function () {
             _this.setState({ inputFocused: false });
             if (_this.state.suggestions.length == 0) {
                 _this.fetchSuggestions();
+            }
+            var onBlur = _this.props.onBlur;
+            if (onBlur) {
+                onBlur();
             }
         };
         _this.onInputChange = function (event) {
@@ -132,7 +140,11 @@ var ReactDadata = /** @class */ (function (_super) {
         };
         _this.selectSuggestion = function (index) {
             if (_this.state.suggestions.length >= index - 1) {
-                _this.setState({ query: _this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: _this.state.suggestions[index].value }, function () {
+                _this.setState({
+                    query: _this.state.suggestions[index].value,
+                    suggestionsVisible: false,
+                    inputQuery: _this.state.suggestions[index].value
+                }, function () {
                     _this.fetchSuggestions();
                     setTimeout(function () { return _this.setCursorToEnd(_this.textInput); }, 100);
                 });
@@ -183,17 +195,20 @@ var ReactDadata = /** @class */ (function (_super) {
         }
         return (React.createElement("div", { className: "react-dadata react-dadata__container" },
             React.createElement("div", null,
-                React.createElement("input", { className: classNames.join(' '), disabled: this.props.disabled, placeholder: this.props.placeholder ? this.props.placeholder : '', value: this.state.query, ref: function (input) { _this.textInput = input; }, onChange: this.onInputChange, onKeyPress: this.onKeyPress, onKeyDown: this.onKeyPress, onFocus: this.onInputFocus, onBlur: this.onInputBlur, validate: this.props.validate, autoComplete: this.props.autocomplete ? this.props.autocomplete : 'off' })),
-            this.state.inputFocused && this.state.suggestionsVisible && this.state.suggestions && this.state.suggestions.length > 0 && React.createElement("div", { className: "react-dadata__suggestions" },
-                React.createElement("div", { className: "react-dadata__suggestion-note" }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0430\u0440\u0438\u0430\u043D\u0442 \u0438\u043B\u0438 \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u0435 \u0432\u0432\u043E\u0434"),
-                this.state.suggestions.map(function (suggestion, index) {
-                    var suggestionClass = 'react-dadata__suggestion';
-                    if (index == _this.state.suggestionIndex) {
-                        suggestionClass += ' react-dadata__suggestion--current';
-                    }
-                    return React.createElement("div", { key: suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
-                        React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
-                }))));
+                React.createElement("input", { className: classNames.join(' '), disabled: this.props.disabled, placeholder: this.props.placeholder ? this.props.placeholder : '', value: this.state.query, ref: function (input) {
+                        _this.textInput = input;
+                    }, onChange: this.onInputChange, onKeyPress: this.onKeyPress, onKeyDown: this.onKeyPress, onFocus: this.onInputFocus, onBlur: this.onInputBlur, validate: this.props.validate, autoComplete: this.props.autocomplete ? this.props.autocomplete : 'off' })),
+            this.state.inputFocused && this.state.suggestionsVisible && this.state.suggestions && this.state.suggestions.length > 0 &&
+                React.createElement("div", { className: "react-dadata__suggestions" },
+                    React.createElement("div", { className: "react-dadata__suggestion-note" }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0430\u0440\u0438\u0430\u043D\u0442 \u0438\u043B\u0438 \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u0435 \u0432\u0432\u043E\u0434"),
+                    this.state.suggestions.map(function (suggestion, index) {
+                        var suggestionClass = 'react-dadata__suggestion';
+                        if (index == _this.state.suggestionIndex) {
+                            suggestionClass += ' react-dadata__suggestion--current';
+                        }
+                        return React.createElement("div", { key: suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                            React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
+                    }))));
     };
     return ReactDadata;
 }(React.PureComponent));
